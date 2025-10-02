@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "deft-breaker-453306-e3",
+  "private_key_id": "b154a7bf0d2d74d82f994034b79ce9287783c8fe",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCqysaWwS6uBlN5\nnLzs4soP82TE0Q6VEMk0SO76c42CjiAC/pYUfM9kM97LH/EdiX5grkCzbVAKlm/r\nI1dFbfLP007MCOXNzskQc8IFdOBwPaiNP3SIiEfGySnh+tb3oKHWXwdj9AARzJob\nOUGl82pAplmhRH7sOQOOmo2S4cFEkEp5e/rSIFzUS8N//a8b46pMbpVphpMJjkmX\nXB44TFhzCzMl5qPldf2yCqtgH3H0gwrbCKNc8XjTqBwOhmb/vNxhTcEYi7VTY3bI\nwhcc6I/Z4pULS1559QtGjLGuoV5mP2VUXiXZoMwYO4m9t7Bo2GW5s0Iut0Ku2qqW\n3q/VSVXZAgMBAAECggEAA18g7n3NhQKgMsK74QBVIwgkHaTVWwE5TbV0l/9RN2lK\nwkv+Uf+ZhgevidRu+j98eAFeuJChipfGiYw40Yo0QYbmg6djyfvKJ6x3bxHzpOCL\n31ImjorfhNIASbYwHUCSr8pDy8yIgnwcJJxkIVTg4G3xaBKZwU/2QChKiP9v0Vbk\nWqB6DmTBfXWRv1CTDZcn5RmXlaf4QLdy7ZuqM65xbGtb07GNOBO0IiWPxxSFY1O0\nS2oV/UN+tvlgeNwKQh0WGGI8xdjcbuNyrRSRDebEsUHdCEbUMnjVo2XJeN/ieVeZ\noELQ29QDaOzZ27U9gwTbdGEdOo8GMVnsKeitn9gNlQKBgQDhp/Do47YuUBGzfJWC\nE347Xjzypm80LbQo04BUhf1NvD+s/SJM1A/wuAvBB2q0qUmO/XfDIWlgeAYWgF/+\n0xQojop3BG9y4pmJGYMO71r8c0OnEIZoAPUii6JmtN5k5Ui6cKKeoeYQB+Eq1/04\nlY8RCDPS75G2pQhPZazxaaOsewKBgQDBwi4rmuI/Vxmgii3me26SQuZpkyv8dKjG\n+ebZjVH/pDzzVj2MtVi9/5sgkYo8cWLixgAV0KteK7EhxD82QHtR7LjT4oHkSLD4\nN9Coiogdn7lqXdigxaBot5lhHC/SBCqqzdKUiUJoxY17x6HcMI2Az0+lUjlr0IKT\n36VDCHuIuwKBgQCRkw1IwPZbpE33E61D8B1kYWRCSfq9l6p9GAzW+mWyS3psuBTz\nqW7rJWB307gT+o44z+3+FUTs9iE/TOwg8b00eNh89YCMhgD0wF+bN/DjodyIH5IF\n8HA0LA7F4XMDdiNYG6fdXKaVuu+Y+yQh5+IW48rDDshbItZcmkRarYLolwKBgDh1\ntfB85HqijdQrD67+vryeA/g1q3aYI+o/PdadCIzetegOdEcBPQe4aOK3pjlwrOj5\n22J/+L+rKaV2Qxky9vxrZ3xOn5z+1Zqu4P2LyJghR+1HxW0ryU9aWLZkeUbQcgJt\nkXQ4/wH6tvyfsnmwKDulrUa2TAcvri0a2VRML3srAoGBAIK6dyCbB4OfqSfm5rmn\n09S5qLb3P8awhCybwKVAQ88d083ChiYn+TzF6hc14fVaPdhwD3XfNJHQcJbkzLPd\nfPjZaKDvcMVGIZJKgzoiHmcWybA/wLkKrflTluS6q1BWm4MhfkGlN/Z1ryqAiYlG\nl2adA6eDGHuFcHKgwms7Mtx8\n-----END PRIVATE KEY-----\n",
+  "client_email": "karan-dutt-sharma-682@deft-breaker-453306-e3.iam.gserviceaccount.com",
+  "client_id": "104035553841402273495",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/karan-dutt-sharma-682%40deft-breaker-453306-e3.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
