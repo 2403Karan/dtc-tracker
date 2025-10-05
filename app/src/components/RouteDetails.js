@@ -13,13 +13,23 @@ function RouteDetails() {
   const [endTime, setEndTime] = useState('');
   const source = searchParams.get("fromStopId");
   const destination = searchParams.get("toStopId");
+  const [loading, setLoading] = useState(false);
   const route = searchParams.get("routeId");
   const key="AIzaSyDeW_X7K8Vlwb1MLe6pWtfFiqPKTghoZlw";
 
-useEffect(() => {
+
+  const navLinks = [
+        { to: "/", label: "Home" },
+        { to: "/stop", label: "Stop" },
+        { to: "/fare", label: "Price" },
+        { to: "/contact", label: "Contact" },
+        { to: "/about", label: "About us" }
+      ];
+  useEffect(() => {
   const fetchAllData = async () => {
     if (!source || !destination || !route) return;
 
+    setLoading(true);
     try {
       const [routeRes, dirRes] = await Promise.all([
         axios.get(`http://127.0.0.1:5000/dtc_tracker/route`, {
@@ -71,6 +81,9 @@ useEffect(() => {
       console.error("Error fetching route/distance:", err);
       setEvents([]);
     }
+    finally{
+      setLoading(false);
+    }
   };
 
   fetchAllData();
@@ -79,18 +92,50 @@ useEffect(() => {
 return (
   <div className="d-flex flex-column min-vh-100">
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <NavLink className="navbar-brand fw-bold" to="/">DTC Tracker</NavLink>
-    </nav>
+        <NavLink className="navbar-brand fw-bold" to="/">
+          DTC Tracker
+        </NavLink>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-    <div className="container mt-3">
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            {navLinks.map((link) => (
+              <li className="nav-item" key={link.to}>
+                <NavLink
+                  to={link.to}
+                  end={link.to === "/"}
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+      <div className="container mt-3">
       <h1 className="fw-bold mb-4 text-center">Route Details</h1>
-
-      {(!events.length || !distance || !duration) ? (
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: "60vh" }}>
+          <p className="text-muted fs-5">Loading Details...</p>
+        </div>) : 
+        (!events.length || !distance || !duration) ? (
         <div className="d-flex justify-content-center align-items-center" style={{ height: "60vh" }}>
           <p className="text-muted fs-5">No route data available.</p>
-        </div>
-      ) : (
-        <>
+        </div>): (
+          <>
           <div className="text-center mb-3">
             <div className="d-flex justify-content-center flex-wrap gap-3">
               <div className="border rounded p-2">Total Distance : <b>{distance}</b></div>

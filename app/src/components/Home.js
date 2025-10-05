@@ -48,7 +48,6 @@ const Home = () => {
 
       <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1 bg-light text-center py-5">
         <h1 className="display-4 fw-bold text-dark mb-3">Welcome to DTC System</h1>
-        <p className="text-muted fs-5">Select a section from the navigation menu above.</p>
       </div>
 
     <footer className="bg-dark text-white text-center py-3 mt-auto">

@@ -7,8 +7,7 @@ CORS(app)
 
 serpapi_key = "a24e81b89b1c5221028e77a7cda227cbc60307f346f1d3385f220d66ab790997"
 
-# get method
-@app.route("/dtc_tracker/distancetime", methods=["GET"])
+@app.route("/dtc_tracker/distancetime")
 def get_distance_duration():
     sourceId = request.args.get("fromStopId")
     destinationId = request.args.get("toStopId")
@@ -28,14 +27,6 @@ def get_distance_duration():
         return jsonify({"distance": distance, "duration": duration, "start_name": sourceName, "end_name": destinationName})
     return jsonify({"error": "No directions found"}), 404
 
-# @app.route("/dtc_tracker/directions", methods=["GET"])
-# def getDirections():
-#     start = request.args.get("start")
-#     end = request.args.get("end")
-#     url = f"https://serpapi.com/search.json?engine=google_maps_directions&start_addr={start}&end_addr={end}&api_key={serpapi_key}"
-#     res = requests.get(url)
-#     return jsonify(res.json())
-
 @app.route('/dtc_tracker/trip/<string:trip_id>/schedule')
 def getTripSchedule(trip_id):
     result=mysql_client.get_trip_schedule(trip_id)
@@ -52,9 +43,7 @@ def getStopsDetails():
 
 @app.route('/dtc_tracker/stop/<int:stop_id>/timing')
 def getStopTiming(stop_id):
-    page=int(request.args.get('page'))
-    pageSize=int(request.args.get('pageSize'))
-    result=mysql_client.get_stops_timings(page,pageSize,stop_id)
+    result=mysql_client.get_stops_timing(stop_id)
     return result
 
 @app.route('/dtc_tracker/route')

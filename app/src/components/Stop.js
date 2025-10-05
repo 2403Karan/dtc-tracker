@@ -5,10 +5,8 @@ import axios from "axios";
 function Stop() {
   const [stopName, setStopName] = useState("");
   const [stopId, setStopId] = useState("");
-  const [stopCode,setStopCode]=useState("")
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  
 
   const navigate = useNavigate();
 
@@ -20,11 +18,10 @@ function Stop() {
   const proceedButton = () =>
   { 
     console.log(stopId)
-    if (stopId) {
+    if (stopId !== "" && stopId !== null && stopId !== undefined) {
       navigate(`/stop/${stopId}`,
         {state:{
-           stop:stopName,
-           scode:stopCode
+           stop:stopName
         }
       });
     } 
@@ -53,7 +50,6 @@ function Stop() {
     console.log(suggestion)
     setStopName(suggestion.stop_name);
     setStopId(suggestion.stop_id);
-    setStopCode(suggestion.stop_code)
     setShowSuggestions(false);
     proceedButton();
   };
@@ -103,12 +99,11 @@ function Stop() {
 
       {/* Main Content */}
       <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1 bg-light text-center py-5">
-        <h1 className="display-4 fw-bold text-dark mb-3">Stop Details</h1>
+        <h1 className="display-4 fw-bold text-dark mb-3">Check Stop Info!!!</h1>
 
         {/* Form Section */}
         <form onSubmit={handleSubmit} className="w-100" style={{ maxWidth: "400px" }}>
           <div className="mb-3 position-relative">
-            <label className="form-label" htmlFor="stopNo">Enter Stop Name:</label>
             <input
               type="text"
               id="stopNo"
@@ -137,6 +132,7 @@ function Stop() {
                     }}
                   >
                     <strong>{s.stop_name}</strong>
+                    <small className="text-muted"> ({s.stop_id})</small>
                   </li>
                 ))}
               </ul>
