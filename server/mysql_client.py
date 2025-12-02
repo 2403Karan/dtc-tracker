@@ -4,7 +4,6 @@ from flask import Flask, request, jsonify
 from sqlalchemy import func, desc, and_, between,distinct
 from sqlalchemy import (BigInteger, Column, Date, Float, Integer, String, TIMESTAMP,
                         DateTime, create_engine, exc, Numeric, delete)
-from google.transit import gtfs_realtime_pb2
 import requests
 import datetime
 import os
@@ -15,7 +14,6 @@ import pymysql
 from datetime import datetime
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker,aliased
-from google.transit import gtfs_realtime_pb2
 import requests
 import pymysql
 from csv import writer,DictWriter
