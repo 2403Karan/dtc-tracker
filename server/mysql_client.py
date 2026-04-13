@@ -1,25 +1,11 @@
 from model import FareAttributes,FareRules,StopsTimes,Stops,Calender,Trips,Routes
-from sqlalchemy import select, join, text
-from flask import Flask, request, jsonify
-from sqlalchemy import func, desc, and_, between,distinct
-from sqlalchemy import (BigInteger, Column, Date, Float, Integer, String, TIMESTAMP,
-                        DateTime, create_engine, exc, Numeric, delete)
-import requests
-import datetime
-import os
-import json
-from sqlalchemy.dialects.mysql import insert
-from sqlalchemy.orm import sessionmaker
-import pymysql
-from datetime import datetime
-from sqlalchemy import create_engine, text
+from sqlalchemy import select, join, text , func, and_, distinct,create_engine
 from sqlalchemy.orm import sessionmaker,aliased
-import requests
-import pymysql
-from csv import writer,DictWriter
-import time
+import datetime,pymysql, os
 from sqlalchemy.orm import declarative_base
+from dotenv import load_dotenv
 
+load_dotenv()  
 pymysql.install_as_MySQLdb()
 
 connectionString = 'mysql://%s:%s@%s/%s' % (os.getenv('DB_USERNAME'), os.getenv('DB_PASSWORD'), '127.0.0.1:3306', 'dtc')

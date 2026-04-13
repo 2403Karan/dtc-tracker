@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import mysql_client
 import httpx, os
 from dotenv import load_dotenv
-
 load_dotenv()
 
 app = FastAPI()
