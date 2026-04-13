@@ -1,7 +1,8 @@
 from model import FareAttributes,FareRules,StopsTimes,Stops,Calender,Trips,Routes
 from sqlalchemy import select, join, text , func, and_, distinct,create_engine
 from sqlalchemy.orm import sessionmaker,aliased
-import datetime,pymysql, os
+import pymysql, os
+from datetime import datetime
 from sqlalchemy.orm import declarative_base
 from dotenv import load_dotenv
 
