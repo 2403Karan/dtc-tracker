@@ -22,7 +22,7 @@ from sqlalchemy.orm import declarative_base
 
 pymysql.install_as_MySQLdb()
 
-connectionString = 'mysql://%s:%s@%s/%s' % ('pymsql','pymsql123','127.0.0.1:3306','dtc')
+connectionString = 'mysql://%s:%s@%s/%s' % (os.getenv('DB_USERNAME'), os.getenv('DB_PASSWORD'), '127.0.0.1:3306', 'dtc')
 Base = declarative_base()
 engine = create_engine(connectionString, isolation_level="READ UNCOMMITTED", pool_recycle=3600)
 Base.metadata.bind = engine
@@ -55,8 +55,7 @@ def StopsTimeDetailsJson(records):
             'arrival_time':convert_timedelta(row[2])
         }
         obj_arr.append(data)
-    json_data=json.dumps(obj_arr,indent=4)
-    return json_data
+    return obj_arr
 
 def stopNameInJson(result):
     obj_arr=[]
@@ -70,8 +69,7 @@ def stopNameInJson(result):
             'zone_id':int(row[5])
         }
         obj_arr.append(data)
-    json_data=json.dumps(obj_arr,indent=4)
-    return json_data
+    return obj_arr
 
 def calculatedStopName(result):
     obj_arr=[]
@@ -81,8 +79,7 @@ def calculatedStopName(result):
             'stop_id':row[1]
             }
         obj_arr.append(data)
-    json_data=json.dumps(obj_arr,indent=4)
-    return json_data
+    return obj_arr
 
 def routeNameInJson(result):
     obj_arr=[]
@@ -92,8 +89,7 @@ def routeNameInJson(result):
             'agency_name':row[1]
         }
         obj_arr.append(data)
-    json_data=json.dumps(obj_arr,indent=4)
-    return json_data
+    return obj_arr
 
 def inBtwStopsDetailsJson(records):
     obj_arr=[]
@@ -106,8 +102,7 @@ def inBtwStopsDetailsJson(records):
             "longitude": float(row[4])  
         }
         obj_arr.append(data)
-    json_data=json.dumps(obj_arr,indent=4)
-    return json_data
+    return obj_arr
 
 def tripDetailsJson(records):
     obj_arr=[]
@@ -118,8 +113,7 @@ def tripDetailsJson(records):
             'departure_time':convert_timedelta(row[2])
         }
         obj_arr.append(data)
-    json_data=json.dumps(obj_arr,indent=4)
-    return json_data
+    return obj_arr
 
 def fareDetailsJson(records):
     obj_arr=[]
@@ -131,8 +125,7 @@ def fareDetailsJson(records):
             'route_id':row[3]
         }
         obj_arr.append(data)
-    json_data=json.dumps(obj_arr,indent=4)
-    return json_data
+    return obj_arr
 
 def get_trip_schedule(tripId):
     join_stmt=join(StopsTimes,Stops,StopsTimes.stop_id==Stops.stop_id)
@@ -140,7 +133,6 @@ def get_trip_schedule(tripId):
         .where(StopsTimes.trip_id==tripId).order_by(StopsTimes.arrival_time)
     with engine.connect() as con:
         result=con.execute(stmt).fetchall()
-        print(result)
     return tripDetailsJson(result)
 
 def get_fare_details(source, destination):

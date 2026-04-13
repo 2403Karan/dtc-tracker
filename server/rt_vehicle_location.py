@@ -19,12 +19,12 @@ from sqlalchemy.orm import sessionmaker
 import requests
 import pymysql
 import logging
-import time
+import os
 
 pymysql.install_as_MySQLdb()
 
 # Database connection
-connectionString = 'mysql+pymysql://%s:%s@%s/%s' % ('pymsql', 'pymsql123', '127.0.0.1', 'DTC')
+connectionString = 'mysql+pymysql://%s:%s@%s/%s' % (os.getenv('DB_USERNAME'), os.getenv('DB_PASSWORD'), '127.0.0.1', 'DTC')
 engine = create_engine(connectionString, isolation_level="READ UNCOMMITTED", pool_recycle=3600)
 DBsession = sessionmaker(bind=engine)
 session = DBsession()

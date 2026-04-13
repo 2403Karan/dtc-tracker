@@ -24,7 +24,7 @@ function StopTimings() {
 
   useEffect(() => {
     if (!stopNo) return; 
-    const apiUrl = `http://127.0.0.1:5000/dtc_tracker/stop/${stopNo}/timing`;
+    const apiUrl = `http://127.0.0.1:8000/dtc_tracker/stop/${stopNo}/timing`;
     
     axios
       .get(apiUrl)

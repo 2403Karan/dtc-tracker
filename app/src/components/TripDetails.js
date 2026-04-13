@@ -16,7 +16,7 @@ function TripDetails() {
   useEffect(() => {
     if (!tripId) return;
 
-    const apiUrl = `http://127.0.0.1:5000/dtc_tracker/trip/${tripId}/schedule`;
+    const apiUrl = `http://127.0.0.1:8000/dtc_tracker/trip/${tripId}/schedule`;
 
     axios
       .get(apiUrl)

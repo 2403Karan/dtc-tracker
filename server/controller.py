@@ -1,75 +1,89 @@
-from flask import Flask,request,jsonify
-from flask_cors import CORS
+from fastapi import APIRouter, Query, HTTPException ,FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import mysql_client
-import json,requests
-app=Flask('/dtc_tracker')
-CORS(app)
+import httpx, os
+from dotenv import load_dotenv
 
-serpapi_key = "a24e81b89b1c5221028e77a7cda227cbc60307f346f1d3385f220d66ab790997"
+load_dotenv()
 
-@app.route("/dtc_tracker/distancetime")
-def get_distance_duration():
-    sourceId = request.args.get("fromStopId")
-    destinationId = request.args.get("toStopId")
-    sourceName = mysql_client.getStopName(sourceId)
-    destinationName = mysql_client.getStopName(destinationId)
+app = FastAPI()
+router = APIRouter(prefix="/dtc_tracker", tags=["DTC Tracker"])
+
+@router.get("/distancetime")
+async def get_distance_duration(
+    fromStopId: int = Query(...),
+    toStopId: int = Query(...)
+):
+    sourceName = mysql_client.getStopName(fromStopId)
+    destinationName = mysql_client.getStopName(toStopId)
+
     if not sourceName or not destinationName:
-        return jsonify({"error": "Invalid stop ID"}), 400
+        raise HTTPException(status_code=400, detail="Invalid stop ID")
+
     serpapi_url = (
         f"https://serpapi.com/search.json?engine=google_maps_directions"
-        f"&start_addr={sourceName}&end_addr={destinationName}&api_key={serpapi_key}"
+        f"&start_addr={sourceName}&end_addr={destinationName}&api_key={os.getenv('SERPAPI_KEY')}"
     )
-    resp = requests.get(serpapi_url)
-    data = resp.json()
+
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(serpapi_url)
+        data = resp.json()
+
     if "directions" in data and len(data["directions"]) > 0:
-        distance = data["directions"][0]["formatted_distance"]
-        duration = data["directions"][0]["formatted_duration"]
-        return jsonify({"distance": distance, "duration": duration, "start_name": sourceName, "end_name": destinationName})
-    return jsonify({"error": "No directions found"}), 404
+        return {
+            "distance": data["directions"][0]["formatted_distance"],
+            "duration": data["directions"][0]["formatted_duration"],
+            "start_name": sourceName,
+            "end_name": destinationName
+        }
 
-@app.route('/dtc_tracker/trip/<string:trip_id>/schedule')
-def getTripSchedule(trip_id):
-    result=mysql_client.get_trip_schedule(trip_id)
-    return result
+    raise HTTPException(status_code=404, detail="Route information not found")
 
-@app.route('/dtc_tracker/stop')
-def getStopsDetails():
-    name=request.args.get("stopName")
-    if name is not None:
-        result=mysql_client.get_stops_by_name(name)
-    else:
-        result=mysql_client.get_all_stops()
-    return result
+@router.get("/trip/{trip_id}/schedule")
+def get_trip_schedule(trip_id: str):
+    return mysql_client.get_trip_schedule(trip_id)
 
-@app.route('/dtc_tracker/stop/<int:stop_id>/timing')
-def getStopTiming(stop_id):
-    result=mysql_client.get_stops_timing(stop_id)
-    return result
 
-@app.route('/dtc_tracker/route')
-def getRouteDetails():
-    route = request.args.get("routeId")
-    source = request.args.get('fromStopId')
-    destination = request.args.get('toStopId')
-    if source and destination:
-        result = mysql_client.get_inbtw_stops(route, source, destination)
-    elif source:
-        result = mysql_client.calculate_possible_stops(source)
-    else:
-        result = {"error": "Insufficient parameters provided"}
-    return result
+@router.get("/stop")
+def get_stops_details(stopName: str = None):
+    if stopName:
+        return mysql_client.get_stops_by_name(stopName)
+    return mysql_client.get_all_stops()
 
-@app.route('/dtc_tracker/fare')
-def getFareDetails():
-    source_id= request.args.get('from')  
-    destination_id = request.args.get('to')  
-    if source_id and destination_id:
-        result = mysql_client.get_fare_details(source_id, destination_id)
-    elif source_id:
-        result=mysql_client.calculate_possible_stops(source_id)
-    else:
-        result = {"error": "Insufficient parameters provided"}
-    return result
 
-if __name__=="__main__":
-    app.run()
+@router.get("/stop/{stop_id}/timing")
+def get_stop_timing(stop_id: int):
+    return mysql_client.get_stops_timing(stop_id)
+
+
+@router.get("/route")
+def get_route_details(
+    routeId: str = None,
+    fromStopId: int = None,
+    toStopId: int = None
+):
+    if fromStopId and toStopId:
+        return mysql_client.get_inbtw_stops(routeId, fromStopId, toStopId)
+    elif fromStopId:
+        return mysql_client.calculate_possible_stops(fromStopId)
+
+
+@router.get("/fare")
+def get_fare_details(
+    from_id: int = Query(None, alias="from"),
+    to_id: int = Query(None, alias="to")
+):
+    if from_id and to_id:
+        return mysql_client.get_fare_details(from_id, to_id)
+    elif from_id:
+        return mysql_client.calculate_possible_stops(from_id)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(router)

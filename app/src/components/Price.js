@@ -38,7 +38,7 @@ function Price() {
   const fetchSuggestions = async (value, isSource) => {
     if (value.length > 1) {
       try {
-        const res = await axios.get(`http://127.0.0.1:5000/dtc_tracker/stop?stopName=${value}`);
+        const res = await axios.get(`http://127.0.0.1:8000/dtc_tracker/stop?stopName=${value}`);
         if (isSource) {
           setSourceSuggestions(res.data);
           setShowSourceSuggestions(true);
@@ -57,10 +57,11 @@ function Price() {
   const fetchPossibleStops = async (stopId) => {
     try {
       console.log(stopId)      
-      const res = await axios.get(`http://127.0.0.1:5000/dtc_tracker/fare?from=${stopId}`);
-      setPossibleStops(res.data);
+      const res = await axios.get(`http://127.0.0.1:8000/dtc_tracker/fare?from=${stopId}`);
+      setPossibleStops(res.data || []);
     } catch (err) {
       console.error("Error fetching possible stops:", err);
+      setPossibleStops([]);
     }
   };
 
@@ -76,9 +77,10 @@ function Price() {
     setDestination(value);
     setDestinationId("");
     
-    if (value.length > 1 && possibleStops.length > 0 ) {
+    if (value?.length > 1 && Array.isArray(possibleStops) && possibleStops.length > 0)
+    {
       const suggestions = possibleStops.filter(stop =>
-        stop.stop_name.toLowerCase().includes(value.toLowerCase())
+        stop?.stop_name?.toLowerCase().includes(value.toLowerCase())
       );
       setDestSuggestions(suggestions);
       setShowDestSuggestions(true);

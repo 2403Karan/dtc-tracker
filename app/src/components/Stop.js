@@ -34,7 +34,7 @@ function Stop() {
 
     if (value.length > 1) {
       try {
-        const res = await axios.get(`http://127.0.0.1:5000/dtc_tracker/stop?stopName=${value}`);
+        const res = await axios.get(`http://127.0.0.1:8000/dtc_tracker/stop?stopName=${value}`);
         setSuggestions(res.data);
         setShowSuggestions(true);
       } catch (err) {

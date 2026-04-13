@@ -31,7 +31,7 @@ function FareDetails() {
   useEffect(() => {
     if (!source || !destination) return;
 
-    const apiUrl = `http://127.0.0.1:5000/dtc_tracker/fare?from=${source}&to=${destination}`;
+    const apiUrl = `http://127.0.0.1:8000/dtc_tracker/fare?from=${source}&to=${destination}`;
 
     setLoading(true);
     axios

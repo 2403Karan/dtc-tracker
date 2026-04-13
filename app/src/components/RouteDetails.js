@@ -32,10 +32,10 @@ function RouteDetails() {
     setLoading(true);
     try {
       const [routeRes, dirRes] = await Promise.all([
-        axios.get(`http://127.0.0.1:5000/dtc_tracker/route`, {
+        axios.get(`http://127.0.0.1:8000/dtc_tracker/route`, {
           params: { fromStopId: source, toStopId: destination, routeId: route }
         }),
-        axios.get(`http://127.0.0.1:5000/dtc_tracker/distancetime`, {
+        axios.get(`http://127.0.0.1:8000/dtc_tracker/distancetime`, {
           params: { fromStopId: source, toStopId: destination }
         })
       ]);
