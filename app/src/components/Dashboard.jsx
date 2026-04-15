@@ -1,17 +1,52 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-// apni image ka path yaha do
 import delhiImage from "../assets/delhi-map.jpg";
 
 const Dashboard = () => {
+  const location = useLocation();
+
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
+
   const stats = [
     { title: "Total Stops", value: "10000+", subtitle: "Across Delhi" },
     { title: "Total Routes", value: "2400+", subtitle: "Operational routes" },
     { title: "Active Trips", value: "80000+", subtitle: "Running now" },
   ];
 
+  // ✅ Show notification after navigation
+  useEffect(() => {
+    if (location.state?.message) {
+      setNotification({
+        show: true,
+        message: location.state.message,
+      });
+
+      setTimeout(() => {
+        setNotification({
+          show: false,
+          message: "",
+        });
+      }, 2000);
+    }
+  }, [location.state]);
+
   return (
     <div className="d-flex flex-column min-vh-100 bg-light">
+
+      {/* ✅ Notification */}
+      {notification.show && (
+        <div
+          className="position-fixed top-0 end-0 m-3 alert alert-success shadow"
+          style={{ zIndex: 9999, minWidth: "280px" }}
+        >
+          {notification.message}
+        </div>
+      )}
+
       {/* Navbar */}
       <nav className="navbar navbar-dark bg-dark shadow-sm">
         <div className="container-fluid justify-content-center">
@@ -31,12 +66,10 @@ const Dashboard = () => {
         <div className="row g-4">
           {/* Left Section */}
           <div className="col-lg-5">
-            <div
-              className="card border-0 shadow-sm"
-              style={{ height: "350px" }}
-            >
+            <div className="card border-0 shadow-sm" style={{ height: "350px" }}>
               <div className="card-body d-flex flex-column justify-content-between">
-                {/* Stats in small boxes */}
+
+                {/* Stats */}
                 <div className="row g-3">
                   {stats.map((item, index) => (
                     <div className="col-md-4 col-12" key={index}>
@@ -70,7 +103,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Right Section - Image */}
+          {/* Right Section */}
           <div className="col-lg-7">
             <div
               className="card border-0 shadow-sm overflow-hidden"

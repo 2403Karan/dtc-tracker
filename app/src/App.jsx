@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./auth/login";
+import Signup from "./auth/signup";
 import AppSidebar from "./appSidebar/AppSidebar";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Signup />} />
 
         <Route path="/" element={<ProtectedRoute />}>
           <Route element={<AppSidebar />}>
