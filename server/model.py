@@ -9,6 +9,12 @@ from sqlalchemy import func, desc
 Base = declarative_base()
 
 meta=MetaData()
+class Users(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String(50), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    
 class Agency(Base):
     __tablename__ = 'agency'
     agency_id= mapped_column(String, primary_key=True)
@@ -66,7 +72,7 @@ class Calender(Base):
     
 class StopsTimes(Base):
     __tablename__ = 'stops_times'
-    stops_time_id= mapped_column(Integer, primary_key=True)
+    stop_time_id= mapped_column(Integer, primary_key=True)
     trip_id= mapped_column(String)
     arrival_time = mapped_column(DateTime)
     departure_time = mapped_column(DateTime)  

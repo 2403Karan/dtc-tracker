@@ -1,5 +1,5 @@
-from model import FareAttributes,FareRules,StopsTimes,Stops,Calender,Trips,Routes
-from sqlalchemy import select, join, text , func, and_, distinct,create_engine
+from model import FareAttributes,FareRules,StopsTimes,Stops,Calender,Trips,Routes,Users
+from sqlalchemy import select, Insert ,join, text , func, and_, distinct,create_engine
 from sqlalchemy.orm import sessionmaker,aliased
 import pymysql, os
 from datetime import datetime
@@ -389,3 +389,28 @@ def count_stop_name(): # calculate total stops between two stops
     )
     result=query.scalar()
     return result
+
+def get_user(username):
+    user = session.query(Users).filter(Users.username == username).first()
+    return user
+
+def create_user(username, password_hash):
+    new_user = Users(
+        username=username,
+        password=password_hash
+    )
+    session.add(new_user)
+    session.commit()
+    session.refresh(new_user)
+    return new_user
+
+def get_dashboard_data():
+    total_routes = session.query(func.count(Routes.route_id)).scalar()
+    total_trips = session.query(func.count(Trips.trip_id)).scalar()
+    total_stops = session.query(func.count(Stops.stop_id)).scalar()
+    return {
+        "total_routes": total_routes,
+        "total_trips": total_trips,
+        "total_stops": total_stops,
+    }
+    
