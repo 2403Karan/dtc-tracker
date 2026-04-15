@@ -8,6 +8,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
 
   const [notification, setNotification] = useState({
     show: false,
@@ -54,17 +55,18 @@ const Login = () => {
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data.access_token);
-        navigate("/dashboard");
-        setTimeout(() => {
-        showNotification("success", "Login successful!");
-        }, 300);
+        setShowSignup(false);
+
+        navigate("/dashboard", {
+          state: { message: "Login successful!" },
+        });
       }
     } catch (error) {
       console.error("Login failed:", error);
 
-      // ✅ CLEAR INPUTS
       setUsername("");
       setPassword("");
+      setShowSignup(true);
 
       showNotification(
         "error",
@@ -136,13 +138,15 @@ const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          <button
-            type="button"
-            className="btn btn-outline-dark w-100 mt-2"
-            onClick={() => navigate("/register")}
-          >
-            Sign Up
-          </button>
+          {showSignup && (
+            <button
+              type="button"
+              className="btn btn-outline-dark w-100 mt-2"
+              onClick={() => navigate("/register")}
+            >
+              Sign Up
+            </button>
+          )}
         </form>
       </div>
 
