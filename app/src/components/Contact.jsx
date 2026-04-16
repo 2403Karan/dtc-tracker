@@ -29,13 +29,9 @@ function Contact() {
               href="mailto:sharmakarandutt2004@gmail.com"
               className="fw-bold text-decoration-none"
             >
-              sharmakarandutt2004@gmail.com
+              sharmakarandutt2004@gmail.com <br />
+              kseth948@gmail.com
             </a>
-          </div>
-
-          <div className="mb-3">
-            <h6 className="text-muted">Phone</h6>
-            <p className="fw-bold mb-0">+91-9992574401</p>
           </div>
 
           <div className="mb-4">
