@@ -19,8 +19,9 @@ from sqlalchemy.orm import sessionmaker
 import requests
 import pymysql
 import logging
-import os
+import os ,dotenv
 
+dotenv.load_dotenv()
 pymysql.install_as_MySQLdb()
 
 # Database connection
@@ -41,8 +42,8 @@ def importRealTimeData():
     try:
         logger.info("Data fetched successfully.")
         feed = gtfs_realtime_pb2.FeedMessage()
-        response = requests.get("https://otd.delhi.gov.in/api/realtime/VehiclePositions.pb?key=Wnywij2jOl3N715nQzLAfOiBK4MdJwUe")
-
+        response = requests.get(f"https://otd.delhi.gov.in/api/realtime/VehiclePositions.pb?key={os.getenv('GTFS_REALTIME_KEY')}")
+        print(response)
         if response.status_code == 200:
             feed.ParseFromString(response.content)
             data = []
