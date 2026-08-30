@@ -18,11 +18,17 @@ DBsession = sessionmaker(bind=engine)
 session = DBsession()
 
 def getStopName(id):
-    stmt=select(Stops.stop_name).where(Stops.stop_id==id)
+    stmt=select(Stops.stop_name,Stops.stop_lat,Stops.stop_long).where(Stops.stop_id==id)
     with engine.connect() as con:
         result=con.execute(stmt).fetchone()
     if result:
-        return result[0]
+        data={
+            'stop_name': result[0],
+            'stop_lat': result[1],
+            'stop_long': result[2]
+        }
+        print(data)
+        return data     
     else:
         return "No Stop Name Found"
 

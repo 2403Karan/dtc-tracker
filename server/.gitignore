@@ -1,4 +1,5 @@
 .env
+env/
 __pycache__/
 rt_vehicle_location.log
 deft-breaker-453306-e3-b154a7bf0d2d.json

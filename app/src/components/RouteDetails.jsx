@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  useSearchParams,
-  useLocation,
-} from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function RouteDetails() {
@@ -12,6 +9,11 @@ function RouteDetails() {
   const [duration, setDuration] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  
+  // 1. New states added to store the exact coordinates from backend
+  const [startCoords, setStartCoords] = useState("");
+  const [endCoords, setEndCoords] = useState("");
+  
   const [loading, setLoading] = useState(false);
 
   const [searchParams] = useSearchParams();
@@ -44,12 +46,15 @@ function RouteDetails() {
         ]);
 
         const routeData = routeRes.data || [];
-
         setEvents(routeData);
 
         // distance & duration
         setDistance(dirRes.data.distance || "");
         setDuration(dirRes.data.duration || "");
+
+        // 2. Extract and update coordinates fetched from backend
+        setStartCoords(dirRes.data.start_name.stop_lat + "," + dirRes.data.start_name.stop_long || "");
+        setEndCoords(dirRes.data.end_name.stop_lat + "," + dirRes.data.end_name.stop_long || "");
 
         // start & end time
         if (routeData.length > 0) {
@@ -144,7 +149,7 @@ function RouteDetails() {
         {!loading && events.length > 0 && (
           <div className="row g-4">
 
-            {/* Map */}
+            {/* Map Column */}
             <div className="col-lg-6">
               <div className="card border-0 shadow-sm" style={{ height: "300px" }}>
                 <div className="card-body p-0 h-100">
@@ -153,68 +158,69 @@ function RouteDetails() {
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
+                    /* 3. Uses startCoords and endCoords if available, falls back to text names while loading */
                     src={`https://www.google.com/maps/embed/v1/directions?key=${key}&origin=${encodeURIComponent(
-                      sourceName
-                    )}&destination=${encodeURIComponent(destinationName)}`}
+                      startCoords 
+                    )}&destination=${encodeURIComponent(endCoords )}`}
+                    allowFullScreen
                   ></iframe>
                 </div>
               </div>
             </div>
 
+            {/* Timeline Column */}
             <div className="col-lg-6">
-            <div
-              className="card border-0 shadow-sm"
-              style={{ height: "300px" }}
-            >
               <div
-                className="card-body"
-                style={{ overflowY: "auto" }}
+                className="card border-0 shadow-sm"
+                style={{ height: "300px" }}
               >
-                <ul className="list-unstyled mb-0">
-
-                  {events.map((point, index) => (
-                    <li
-                      key={index}
-                      className="d-flex align-items-start mb-3"
-                    >
-                      {/* Timeline Line + Dot */}
-                      <div
-                        className="d-flex flex-column align-items-center"
-                        style={{ width: "30px" }}
+                <div
+                  className="card-body"
+                  style={{ overflowY: "auto" }}
+                >
+                  <ul className="list-unstyled mb-0">
+                    {events.map((point, index) => (
+                      <li
+                        key={index}
+                        className="d-flex align-items-start mb-3"
                       >
+                        {/* Timeline Line + Dot */}
                         <div
-                          className="bg-primary rounded-circle"
-                          style={{ width: "10px", height: "10px" }}
-                        ></div>
-
-                        {index < events.length - 1 && (
+                          className="d-flex flex-column align-items-center"
+                          style={{ width: "30px" }}
+                        >
                           <div
-                            className="bg-primary"
-                            style={{
-                              width: "2px",
-                              flexGrow: 1,
-                              marginTop: "2px",
-                            }}
+                            className="bg-primary rounded-circle"
+                            style={{ width: "10px", height: "10px" }}
                           ></div>
-                        )}
-                      </div>
 
-                      {/* Content */}
-                      <div className="ms-3">
-                        <div className="fw-semibold">
-                          {point.stop_name}
+                          {index < events.length - 1 && (
+                            <div
+                              className="bg-primary"
+                              style={{
+                                width: "2px",
+                                flexGrow: 1,
+                                marginTop: "2px",
+                              }}
+                            ></div>
+                          )}
                         </div>
-                        <small className="text-muted">
-                          {point.arrival_time}
-                        </small>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+
+                        {/* Content */}
+                        <div className="ms-3">
+                          <div className="fw-semibold">
+                            {point.stop_name}
+                          </div>
+                          <small className="text-muted">
+                            {point.arrival_time}
+                          </small>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-
           </div>
         )}
 
@@ -230,7 +236,7 @@ function RouteDetails() {
 
       {/* Footer */}
       <footer className="bg-dark text-white text-center py-3 mt-auto">
-                <p className="mb-0">&copy; 2025 DTC System. All rights reserved.</p>
+        <p className="mb-0">&copy; 2026 DTC System. All rights reserved.</p>
       </footer>
     </div>
   );

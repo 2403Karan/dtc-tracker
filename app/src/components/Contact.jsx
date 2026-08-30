@@ -18,7 +18,7 @@ function Contact() {
           className="card shadow-lg border-0 text-center p-4"
           style={{ maxWidth: "500px", width: "100%" }}
         >
-          <h2 className="fw-bold mb-3">Get in Touch 📞</h2>
+          <h2 className="fw-bold mb-3">Get in Touch </h2>
           <p className="text-muted mb-4">
             Have questions, feedback, or suggestions? We'd love to hear from you!
           </p>
@@ -26,11 +26,10 @@ function Contact() {
           <div className="mb-3">
             <h6 className="text-muted">Email</h6>
             <a
-              href="mailto:sharmakarandutt2004@gmail.com"
+              href="mailto:karan.dutt.sharma2004@gmail.com"
               className="fw-bold text-decoration-none"
             >
-              sharmakarandutt2004@gmail.com <br />
-              kseth948@gmail.com
+              karan.dutt.sharma2004@gmail.com <br />
             </a>
           </div>
 

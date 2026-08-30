@@ -126,13 +126,6 @@ function Signup() {
             {loading ? "Creating..." : "Sign Up"}
           </button>
 
-          <button
-            type="button"
-            className="btn btn-outline-dark w-100 mt-2"
-            onClick={() => navigate("/login")}
-          >
-            Login
-          </button>
         </form>
       </div>
 

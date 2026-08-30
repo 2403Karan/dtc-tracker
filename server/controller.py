@@ -62,9 +62,11 @@ async def get_distance_duration(
     destinationName = mysql_client.getStopName(toStopId)
     if not sourceName or not destinationName:
         raise HTTPException(status_code=400, detail="Invalid stop ID")
+    start_coords = f"{sourceName['stop_lat']},{sourceName['stop_long']}"
+    end_coords = f"{destinationName['stop_lat']},{destinationName['stop_long']}"
     serpapi_url = (
         f"https://serpapi.com/search.json?engine=google_maps_directions"
-        f"&start_addr={sourceName}&end_addr={destinationName}&api_key={os.getenv('SERPAPI_KEY')}"
+        f"&start_addr={start_coords}&end_addr={end_coords}&api_key={os.getenv('SERPAPI_KEY')}"
     )
     async with httpx.AsyncClient() as client:
         resp = await client.get(serpapi_url)
