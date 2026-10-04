@@ -1,6 +1,5 @@
 from model import VehicleLocation,Agency,FareAttributes,FareRules,StopsTimes,Stops,Calender,Trips,Routes,declarative_base as db
 from sqlalchemy import delete, select, join, text
-from flask import Flask, request, jsonify
 from sqlalchemy import func, desc, and_, between
 from sqlalchemy import (BigInteger, Column, Date, Float, Integer, String, TIMESTAMP,
                         DateTime, create_engine, exc, Numeric, delete)
@@ -32,7 +31,7 @@ session = DBsession()
   
 logger = logging.getLogger(__name__)
 logging.basicConfig(
-    filename=r'C://projects/dtcTracker/server/rt_vehicle_location.log',
+    filename=r'C://projects/dtcTracker(FastApi)/server/rt_vehicle_location.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     force=True

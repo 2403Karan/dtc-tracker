@@ -9,3 +9,5 @@ python-jose[cryptography]
 pymysql
 httpx
 python-multipart>=0.0.9
+requests
+gtfs-realtime-bindings
